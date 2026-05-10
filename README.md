@@ -2,6 +2,8 @@
 
 Codex と Claude Code のローカル共通ルールを `rule.md` で管理し、各端末の global instruction に配信するためのリポジトリです。
 
+Repository: https://github.com/uechikohei/agent-config-core
+
 Codex 用と Claude Code 用の設定ファイルを別々に編集する代わりに、`rule.md` を編集して Git で差分を確認し、`./deploy.sh` で両方へ反映します。
 
 ## 使い方
