@@ -19,6 +19,44 @@ python3 validate.py
 - `./deploy.sh`: `rule.md` を Codex / Claude Code の global instruction へ配信する
 - `./deploy.sh --check`: 配信済みファイルが現在の `rule.md` と一致するか確認する
 - `./deploy.sh --dry-run`: 書き込み先だけ表示する
+- `PERSONA_SKILLS_ROOT=/path/to/persona-skills-core ./deploy.sh --install-persona-skills`: Persona Skills Core を Codex / Claude Code に登録する
+- `PERSONA_SKILLS_ROOT=/path/to/persona-skills-core ./deploy.sh --persona-skills-status`: Persona Skills Core の登録状態を確認する
+
+## Persona Skills Core 連携
+
+`agent-config-core` は Persona Skills の本文を持ちません。Persona Skills Core を使う場合は、別途 clone した `persona-skills-core` の CLI を optional command から呼び出します。
+
+```bash
+git clone https://github.com/uechikohei/persona-skills-core.git
+PERSONA_SKILLS_ROOT=/path/to/persona-skills-core ./deploy.sh --install-persona-skills
+PERSONA_SKILLS_ROOT=/path/to/persona-skills-core ./deploy.sh --persona-skills-status
+```
+
+期待値:
+
+- Codex: `manifest: present`、`plugin symlink: linked`、`config plugin: enabled`
+- Claude Code: `technical-writing: linked` と、他の Persona Skills も `linked`
+
+登録後は Codex / Claude Code を新規セッションで起動して確認します。既存セッションは起動時点の plugin / skill metadata を保持している場合があります。
+
+Codex では `$` で skill mention 候補を開き、`persona-skills:technical-writing` などの Persona Skills が表示されることを確認します。`/` は Codex の slash command 一覧であり、Persona Skills の一覧確認には使いません。
+
+```text
+$
+```
+
+Claude Code では `/` で slash skill 候補を開き、`/technical-writing` などの Persona Skills が表示されることを確認します。
+
+```text
+/
+```
+
+最小確認プロンプト:
+
+```text
+technical-writing を使って、READMEレビューの進め方を提案してください。
+参照した Persona Skills のローカルpathも2件以上書いてください。
+```
 
 ## 配信先
 
