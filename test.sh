@@ -32,18 +32,18 @@ PERSONA_SKILLS_ROOT="$persona_root" \
 AGENT_CONFIG_HOME="$tmp_dir/home" \
 "$ROOT_DIR/deploy.sh" --persona-skills-status >/dev/null
 
-rg -q 'codex-plugin-status --home' "$persona_log"
-rg -q 'claude-skills-status --claude-skills-path' "$persona_log"
+grep -q 'codex-plugin-status --home' "$persona_log"
+grep -q 'claude-skills-status --claude-skills-path' "$persona_log"
 
 PERSONA_SKILLS_TEST_LOG="$persona_log" \
 PERSONA_SKILLS_ROOT="$persona_root" \
 AGENT_CONFIG_HOME="$tmp_dir/home" \
 "$ROOT_DIR/deploy.sh" --install-persona-skills >/dev/null
 
-rg -q 'install-codex-plugin --dry-run --home' "$persona_log"
-rg -q 'install-codex-plugin --apply --home' "$persona_log"
-rg -q 'install-claude-skills --dry-run --claude-skills-path' "$persona_log"
-rg -q 'install-claude-skills --apply --claude-skills-path' "$persona_log"
+grep -q 'install-codex-plugin --dry-run --home' "$persona_log"
+grep -q 'install-codex-plugin --apply --home' "$persona_log"
+grep -q 'install-claude-skills --dry-run --claude-skills-path' "$persona_log"
+grep -q 'install-claude-skills --apply --claude-skills-path' "$persona_log"
 
 printf '\n# drift\n' >>"$tmp_dir/home/.codex/AGENTS.md"
 if AGENT_CONFIG_HOME="$tmp_dir/home" "$ROOT_DIR/deploy.sh" --check >/dev/null 2>&1; then
